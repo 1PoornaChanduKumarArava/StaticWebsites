@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="todod.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        *{
+    box-sizing:border-box;
+}
+.header{
+    width:100%;
+    background-color:red;
+    text-align: center;
+    padding:2%;
+    box-sizing: border-box;
+    margin:0px;
+}
+i{
+    cursor: pointer;
+}
+h1{
+    color:white;
+}
+.title{
+    width:75%;
+    padding:2%;
+}
+.add{
+    padding:2%;
+}
+.container{
+    width:100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.container:nth-child(even){
+    background-color: gray;
+}
+
+    </style>
+
+</head>
+<body>
+    <div class="header">
+        <h1>My To Do List</h1>
+        <form>
+            <label for="title"></label>
+            <input class="title" id="title" type="text" placeholder="Title...">
+            <input class="add" id="add" type="button" value="ADD" onclick="add_task()">
+        </form>
+    </div>
+    <div id="main-div" class="tasks">
+              
+
+    </div>
+
+
+    
+
+
+
+
+
+
+
+
+
+    <script>
+        var titleGiven=document.getElementById('title');
+        let updatedInputVal = "";
+
+        var add = document.getElementById('add');
+
+        function add_task() {
+
+            if(document.getElementById('add').value!='Edit' && document.getElementById('title').value!=='')
+            {
+                document.getElementById("add").value="ADD";
+                let mainDiv=document.getElementById('main-div');
+                let newDiv=document.createElement('div');
+                newDiv.classList.add("container");
+                var newPara=document.createElement('p');
+                newPara.innerHTML=titleGiven.value;
+                let DeleteElement=document.createElement('p');
+                DeleteElement.innerHTML='<i class="fas fa-edit" style="color: #2b78fd;" onclick="editFunction(this)"></i>'+ " " + '<i class="fa-solid fa-circle-xmark" onclick="deleteFunction(this)" style="color: #ff0000;"></i>';
+            
+                mainDiv.appendChild(newDiv);
+                newDiv.appendChild(newPara);
+                newDiv.appendChild(DeleteElement);
+                updatedInputVal = titleGiven.value;
+                titleGiven.value="";
+            }
+
+        }
+
+        function deleteFunction(a){
+            a.parentNode.parentNode.remove();
+        }
+
+        function editFunction(b){
+
+            let c=b.parentNode.parentNode; 
+            const task_text=c.querySelectorAll("p");
+            titleGiven.value=task_text[0].textContent;
+            console.log(titleGiven.value)
+            let editButton=document.getElementById('add');
+            editButton.value='SAVE';
+            b.parentNode.parentNode.remove();
+            editButton.addEventListener('click', handleEditClick);
+
+            function handleEditClick(){
+                add.removeEventListener('click' , add_task());
+                add_task.removeEventListener
+                let editedValue=document.getElementById('title').value;
+                console.log("Title value " , updatedInputVal);
+                task_text[0].innerHTML=editedValue;
+                c.firstElementChild.innerHTML = updatedInputVal;
+                editButton.value='ADD';
+                editButton.removeEventListener('click',handleEditClick);
+            }
+
+            editButton.addEventListener('click',add_task);
+        }
+    </script>
+</body>
+</html>
